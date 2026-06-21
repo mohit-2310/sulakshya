@@ -159,7 +159,7 @@ nav.links a:hover{opacity:1}nav.links a:hover::after{width:100%}
 /* vertical fallback for mobile showcase */
 .showcase.stacked .showcase-sticky{position:relative;height:auto;display:block;overflow:visible}
 .showcase.stacked .showcase-track{flex-direction:column;height:auto;transform:none!important}
-.showcase.stacked .panel{flex:none;width:100%;height:auto;min-height:auto;padding:64px 7vw}
+.showcase.stacked .panel{flex:none;width:100%;min-height:auto;padding:64px 7vw}
 .showcase.stacked .showcase-rail,.showcase.stacked .showcase-count{display:none}
 
 /* ---------- anatomy ---------- */
@@ -726,12 +726,16 @@ inds.forEach(([name,src],i)=>{const d=(i%4)+1;const c=document.createElement('di
 const showcase=document.querySelector('.showcase'),track=document.getElementById('track'),scRail=document.getElementById('scRail'),scCount=document.getElementById('scCount');
 let panels=track.children.length, pinned=false;
 function setupShowcase(){
-  /* Always stack the showcase as normal vertical sections — reliable on every device. */
-  pinned = false;
-  if(!showcase||!track) return;
-  showcase.classList.add('stacked');
-  showcase.style.height='auto';
-  track.style.transform='none';
+  pinned = window.innerWidth>860 && !reduce;
+  if(pinned){
+    showcase.classList.remove('stacked');
+    const overflow=(panels-1)*window.innerWidth;
+    showcase.style.height=(window.innerHeight+overflow)+'px';
+  }else{
+    showcase.classList.add('stacked');
+    showcase.style.height='auto';
+    track.style.transform='none';
+  }
 }
 function showcaseScroll(){
   if(!pinned) return;
